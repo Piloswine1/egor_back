@@ -51,6 +51,19 @@ router.post('/get_data', (req, res) => {
          })  
 });
 
+router.post('/delete_data', (req, res) => {
+   console.log(req.body)
+    posts.deleteOne({_id: ObjectID(req.body.id)})
+         .then(data => {
+            if (data) res.send({msg: "deleted"})
+            else res.status(401).end()
+         })  
+         .catch(err => {
+            console.log(err);
+            res.status(503).end();
+         })  
+});
+
 router.post('/change_data', (req, res) => {
    const {id, date, list} = req.body
    posts.updateOne({_id: ObjectID(id)}, { $set: {date, list} })
